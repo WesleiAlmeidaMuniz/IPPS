@@ -1,0 +1,25 @@
+name: 🚀 Deploy site estático via FTP
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  ftp-deploy:
+    name: 📂 Deploy direto para Hostinger
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚚 Obter código mais recente
+        uses: actions/checkout@v4
+
+      - name: 📤 Enviar arquivos via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          local-dir: ${{ secrets.FTP_LOCAL_DIR }}
+          dangerous-clean-slate: true
